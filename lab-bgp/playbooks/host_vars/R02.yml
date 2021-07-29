@@ -1,0 +1,43 @@
+---
+hostname: R02
+vty:
+  num_min: 0
+  num_max: 4
+  exec_timeout: 0
+
+interfaces:
+  - name: GigabitEthernet0/0/1
+    ipv4: 172.16.12.102/24
+  - name: GigabitEthernet0/0/2
+    ipv4: 10.133.24.102/24
+
+# routing:
+#   - net: 192.168.180.0/24
+#     via: 192.168.30.4
+
+ospf:
+  - id: 10
+    rid: 2.2.2.2
+    networks:
+      - net: 172.16.12.0/24
+        area: 0
+      - net: 10.133.24.0/24
+        area: 0
+#     passive_int:
+#       default_passive: true
+#       int_name:
+#         - gig2
+#         - gig3
+#         - gig4
+
+# ospf_int:
+#   - int_name: Gig3
+#     cost: 10
+#     net_type: point-to-point
+#     priority: 10
+
+ospf_check_rtr:
+  my_areas: [0]
+  my_nbr_count: 1
+  should_be_asbr: false
+  should_be_stub_trt: false

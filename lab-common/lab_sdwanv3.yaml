@@ -1,0 +1,129 @@
+---
+vm:
+  routers:
+    vios:
+      flavor: vios
+      image: vios-158-3
+      init_img: vios_initv3
+    csr:
+      flavor: csr1000v.small
+      image: csr1000v-universalk9.17.03.02-serial
+      #csr1000v-16.09.04
+    cedge:
+      flavor: csr1000v.small
+      image: csr1000v-universalk9.17.03.02-serialv10
+  server:
+    vedge:
+      flavor: viptela.edge
+      image: viptela-edge-20.4.1.1v10
+    vmanage:
+      flavor: viptela.vmanage
+      image: viptela-vmanage-20.4.1.1
+    vbond:
+      flavor: viptela.edge
+      image: viptela-edge-20.4.1.1v10
+      name: vbond
+    vsmart:
+      flavor: viptela.smart
+      image: viptela-smart-20.4.1.1v10
+      name: vsmart
+
+routers:
+  R01:
+    type: csr
+    links: { 1,11 }
+    group: cedge
+    name: R01
+    mgmt_ipv4: 192.168.30.111
+    os_host: nova:osc    
+  R02:
+    type: csr
+    links: { 2,12 }
+    group: cedge
+    name: R02
+    mgmt_ipv4: 192.168.30.112
+    os_host: nova:osc
+  R03:
+    type: vedge
+    name: R03
+    links: { 3,13 }
+    group: vedge
+    mgmt_ipv4: 192.168.30.113
+  R04:
+    type: vedge
+    name: R04
+    group: [vedge]
+    links: { 4,14 }
+    mgmt_ipv4: 192.168.30.114
+  R20:
+    type: csr
+    links: { 1,2,3,4,20 }
+    group: provider
+    os_host: nova:osc
+    mgmt_ipv4: 192.168.30.130
+  R11:
+    type: vios
+    links: { 11 }
+    group: lan
+  R12:
+    type: vios
+    links: { 12 }
+    group: lan
+  R13:
+    type: vios
+    links: { 13 }
+    group: lan
+  R14:
+    type: vios
+    links: { 14 }
+    group: lan
+
+servers:
+  SRV1:
+    type: vmanage
+    name: vmgmt
+    group: vmanage
+    links: { 20 }
+    mgmt_ipv4: 192.168.30.41
+  SRV2:
+    type: vsmart
+    name: vsmart
+    group: vsmart
+    links: { 20 }
+    mgmt_ipv4: 192.168.30.42
+  SRV3:
+    type: vbond
+    name: vbond
+    group: vbond
+    links: { 20 }
+    mgmt_ipv4: 192.168.30.43
+networks:
+  1:
+    ipv4: 10.132.1.0/24
+    #ipv6: 2001:470:70e1:141::/64
+  2:
+    ipv4: 10.132.2.0/24
+    #ipv6: 2001:470:70e1:142::/64    
+  3:
+    ipv4: 10.132.3.0/24
+  4:
+    ipv4: 10.132.4.0/24
+  11:
+    ipv4: 10.132.11.0/24
+    dhcp_srv: enable
+  12:
+    ipv4: 10.132.12.0/24
+    dhcp_srv: enable
+  13:
+    ipv4: 10.132.13.0/24
+    dhcp_srv: enable
+  14:
+    ipv4: 10.132.14.0/24
+    dhcp_srv: enable  
+  20:
+    ipv4: 10.132.20.0/24
+  # 99:
+  #   ipv4: 10.99.99.0/24
+  #   connected_link: labv10_link_99
+
+  

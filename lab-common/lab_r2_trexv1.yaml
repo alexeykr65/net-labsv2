@@ -1,0 +1,47 @@
+---
+vm:
+  routers:
+    vios:
+      flavor: vios
+      image: vios-158-3
+      init_img: vios_initv4
+    csr:
+      flavor: csr1000v.small
+      image: csr1000v-16.09.04
+    av1000v:
+      flavor: viptela.edge
+      image: huaweiar1k-5.170v10
+  server:
+    centos:
+      flavor: centos.xlarge
+      image: centos8.4
+
+# routers:
+#   R01: 
+#     type: av1000v
+#     links: { 1,2,77,77,77 }
+#     mgmt_ipv4: 192.168.30.61
+#     os_host: nova:osc 
+
+
+servers:
+  SRV01:
+    type: centos
+    links: { 1 }
+    os_host: nova:osc 
+  SRV02:
+    type: centos
+    links: { 1 }
+    os_host: nova:osn1
+  # SRV3:
+  #   links: { 8 }
+
+networks:
+  1:
+    ipv4: 10.133.1.0/24
+    #ipv6: 2001:470:70e1:141::/64
+  # 2:
+  #   ipv4: 10.133.2.0/24
+  #   #ipv6: 2001:470:70e1:142::/64    
+  
+  

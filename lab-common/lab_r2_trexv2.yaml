@@ -1,0 +1,68 @@
+---
+vm:
+  routers:
+    vios:
+      flavor: vios
+      image: vios-158-3
+      init_img: vios_initv4
+    csr:
+      flavor: csr1000v.small
+      image: csr1000v-16.09.04
+    av1000v:
+      flavor: viptela.edge
+      image: huaweiar1k-5.170v10
+  server:
+    centos:
+      flavor: centos.xlarge
+      image: centos8.4
+    trex:
+      flavor: centos.xlarge
+      image: alpine-3-12-trex282
+    wanem:
+      flavor: vios
+      image: alpine-wanem-313
+
+# routers:
+#   R01: 
+#     type: av1000v
+#     links: { 1,2,77,77,77 }
+#     mgmt_ipv4: 192.168.30.61
+#     os_host: nova:osc 
+
+
+servers:
+  SRV01:
+    type: centos
+    links: { 1 }
+    os_host: nova:osc 
+  SRV02:
+    type: wanem
+    links: { 1,2 }
+    os_host: nova:osc
+    cloud_init: 
+      cloud_config: |
+            write_files:
+              - content: |
+                  LATENCY="100"
+                  JITTER="0"
+                  LOSS="4.4"
+                  BANDWIDTH="512"
+                permissions: 0644
+                path: /tmp/wanem.cfg
+            runcmd:
+              - [ /usr/local/sbin/wanem_setup.sh ]
+
+  SRV03:
+    type: centos
+    links: { 2 }
+    os_host: nova:osc
+
+networks:
+  1:
+    ipv4: 10.133.1.0/24
+    #ipv6: 2001:470:70e1:141::/64
+  2:
+    ipv4: 10.133.1.0/24
+    #ipv6: 2001:470:70e1:142::/64    
+  
+  

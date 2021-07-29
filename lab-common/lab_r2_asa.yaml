@@ -1,0 +1,72 @@
+---
+vm:
+  routers:
+    vios:
+      flavor: vios
+      image: vios-158-3
+      init_img: vios_initv3
+    csr:
+      flavor: csr1000v.small
+      image: csr1000v-16.09.04
+    asa:
+      flavor: v1.10.m2
+      image: asav9-15-1
+
+  server:
+    centos:
+      flavor: centos.small
+      image: centos8.3
+
+routers:
+  ASA01: 
+    type: asa
+    links: { 1,2 }
+  ASA02:
+    type: asa
+    links: { 1,2 }
+
+#servers:
+#   SRV1:
+#     links: { 1 }
+#   SRV2:
+#     links: { 1 }
+#   # SRV3:
+#   #   links: { 8 }
+
+networks:
+  1:
+    ipv4: 10.131.1.0/24
+    ipv6: 2001:470:70e1:141::/64
+  2:
+    ipv4: 10.131.2.0/24
+    ipv6: 2001:470:70e1:142::/64    
+  #3:
+  #   ipv4: 10.131.3.0/24
+  # 4:
+  #   ipv4: 10.131.4.0/24
+  # 5:
+  #   ipv4: 10.131.5.0/24
+  # 6:
+  #   ipv4: 10.131.6.0/24
+  # 7:
+  #   ipv4: 10.131.7.0/24
+  # 8:
+  #   ipv4: 10.131.8.0/24
+  # # link9:
+  # #   ipv4: 10.131.9.0/24
+  # # link10:
+  # #   ipv4: 10.131.10.0/24
+  # # link11:
+  # #   ipv4: 10.131.11.0/24
+  # # link12:
+  # #   ipv4: 10.131.12.0/24
+  # # link13:
+  # #   ipv4: 10.131.13.0/24
+  # # link14:
+  # #   ipv4: 10.131.14.0/24
+  # # link15:
+  # #   ipv4: 10.131.15.0/24
+  # # link16:
+  # #   ipv4: 10.131.16.0/24
+  # # link17:
+  # #   ipv4: 10.131.17.0/24
