@@ -1,0 +1,23 @@
+---
+- name: Configure Cisco IOS
+  hosts: vios
+  connection: local
+  vars:
+    ospf_check: False
+    do_it: True
+#   vars_files:
+#     - "vars/data-plp-dmvpn.yml"
+# #    - "vars/data-plp-dmvpn-eigrp.yml"
+
+  roles:
+    - router-config
+    - ospf
+#    - dmvpn
+#    - eigrp
+  
+  tasks:
+    - name: Write config to router
+      ios_command:
+        commands: "wr mem"
+      tags:
+        - never

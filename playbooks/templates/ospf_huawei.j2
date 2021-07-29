@@ -1,0 +1,57 @@
+#jinja2: trim_blocks: True, lstrip_blocks: True
+system-view
+{# Configure ospf for IOS #}
+{% if ospf is defined %}
+  {% for ospf_id in ospf %}
+{#================= Create Process OSPF ============================#}
+    {% if 'vrf' in ospf_id %}
+router ospf {{ ospf_id.id }}  vrf {{ ospf_id.vrf }}
+    {% else %}
+ospf router-id {{ ospf_id.rid }} {{ ospf_id.id }}
+    {% endif %}
+{#================= Configure default route ===================#}
+    {% if 'default_info' in ospf_id %}
+ default-information originate {{ ospf_id.default_info }}
+    {% endif %}
+{#================= Configure passive interfaces ===================#}
+    {% if 'passive_int' in ospf_id %}
+      {% if ospf_id.passive_int.default_passive %}
+ passive-interface default
+      {% endif %}
+      {% if 'int_name' in ospf_id.passive_int %}
+        {% for pint in ospf_id.passive_int.int_name %}
+          {% if ospf_id.passive_int.default_passive %}
+ no passive-interface {{ pint }}
+          {% else %}
+ passive-interface {{ pint }}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endif %}
+
+{#================= Configure summary address ===================#}
+    {% if 'summary_address' in ospf_id %}
+ summary-address {{ ospf.summary_address | ipaddr('network') }} {{ ospf.summary_address | ipaddr('netmask') }}
+    {% endif %}
+    {% for net in ospf_id.networks %}
+ area {{ net.area }}
+  network {{ net.net | ipaddr('network') }} {{ net.net | ipaddr('hostmask') }}
+    {% endfor %}
+  {% endfor %}
+{% endif %}
+{#================= Configure interfaces OSPF ============================#}
+{% if ospf_int is defined %}
+  {% for os_int in ospf_int %}
+interface {{ os_int.int_name }}
+   {% if 'cost' in os_int %}
+ ip ospf cost {{ os_int.cost }}
+    {% endif %}
+   {% if 'net_type' in os_int %}
+ ip ospf network {{ os_int.net_type }}
+    {% endif %}
+   {% if 'priority' in os_int %}
+ ip ospf priority {{ os_int.priority }}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+return
