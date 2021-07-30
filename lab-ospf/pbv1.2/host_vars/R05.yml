@@ -19,7 +19,7 @@ interfaces:
 #   - id: 10
 #     rid: 5.5.5.5
 #     networks:
-#       - net: 10.133.45.0/24
+#       - net: 45.0.0.0/24
 #         area: 0
 #     passive_int:
 #       default_passive: true
@@ -34,14 +34,14 @@ interfaces:
 #     net_type: point-to-point
 #     priority: 10
 
-# eigrp:
-#   - eigrp_name: DMVPN_TUN
-#     address_family: 100
-#     router_id: 172.31.4.70
-#     stub_site: '100:100'      
-#     networks:
-#       - net: '172.31.10.0/24'
-#       - net: '192.168.102.0/24'
+eigrp:
+  - eigrp_name: EIGRP_100
+    address_family: 100
+    router_id: 5.5.5.5
+#    stub_site: '100:100'      
+    networks:
+      - net: '45.0.0.0/24'
+      - net: '6.6.6.0/24'
 #     af_int:
 #       - int_name: default
 #         passive_int: True        

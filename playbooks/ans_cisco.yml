@@ -1,6 +1,6 @@
 ---
 - name: Configure Cisco IOS
-  hosts: vios
+  hosts: cisco
   connection: local
   vars:
     ospf_check: False
@@ -12,8 +12,9 @@
   roles:
     - router-config
     - ospf
-#    - dmvpn
-#    - eigrp
+# #    - dmvpn
+    - eigrp
+    - redistribute
   
   tasks:
     - name: Write config to router

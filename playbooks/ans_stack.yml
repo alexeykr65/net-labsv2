@@ -29,15 +29,6 @@
     #     msg: "{{ stack_create }}"
     #   when: not stack_skip|bool
 
-    - name: STACK=>>Creating a file oslabs.yml for dynamic inventory
-      copy:
-        dest: "../oslabs.yml"
-        content: |
-          ---
-          wan: {{ mgmt_name }}
-          lab: {{ stack_name }}
-      delegate_to: localhost
-
 - name: "STACK=>>Refresh inventory file"
   hosts: localhost
   connection: local

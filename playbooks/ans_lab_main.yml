@@ -1,12 +1,36 @@
+- name: PREPARE=>>Check variables and files
+  hosts: localhost
+  gather_facts: false
+  vars:
+    stack_dir: "../net-stack"
+    mgmt_name: wan0
+  
+  tasks:
+    - name: PREPARE=>>Check if variable 'stack_name' exist 
+      debug:
+        msg: "{{ stack_name }}"
+      failed_when: stack_name|length == 0
+
+    - name: PREPARE=>>Check if variable 'stack_template' exist 
+      debug:
+        msg: "{{ stack_template }}"
+      failed_when: stack_name|length == 0
+
+    - name: PREPARE=>>Creating a file oslabs.yml for dynamic inventory
+      copy:
+        dest: "./oslabs.yml"
+        content: |
+          ---
+          wan: {{ mgmt_name }}
+          lab: {{ stack_name }}
+      delegate_to: localhost
+
 - name: Import STACK playbook
   import_playbook: ans_stack.yml
   vars:
     stack_dir: "../net-stack"
-    mgmt_name: wan0
-    stack_name: labv10
-    tag_name: labs
     stack_update: false
-    stack_template: "st_lab_bgpv3.yaml"
+    tag_name: labs
   when: not stack_skip|bool
 
 - name: HUAWEI=>> Import HUAWEI playbook

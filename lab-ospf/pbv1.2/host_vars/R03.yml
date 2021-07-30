@@ -1,0 +1,49 @@
+---
+hostname: R03
+vty:
+  num_min: 0
+  num_max: 4
+  exec_timeout: 0
+
+interfaces:
+  - name: GigabitEthernet0/0/1
+    ipv4: 172.16.13.103/24
+  - name: GigabitEthernet0/0/2
+    ipv4: 10.133.34.103/24
+
+# routing:
+#   - net: 192.168.180.0/24
+#     via: 192.168.30.4
+
+
+# nat:
+#   inside: GigabitEthernet3
+#   outside: GigabitEthernet2
+#   ipnat: list 100 interface GigabitEthernet2 overload
+
+ospf:
+  - id: 10
+    rid: 3.3.3.3
+    networks:
+      - net: 13.0.0.0/24
+        area: 2
+      - net: 34.0.0.0/24
+        area: 2
+#     passive_int:
+#       default_passive: true
+#       int_name:
+#         - gig2
+
+ospf_int:
+  - int_name: Gig2
+    cost: 1
+  - int_name: Gig3
+    cost: 65000
+#     net_type: point-to-point
+#     priority: 10
+
+ospf_check_rtr:
+  my_areas: [0]
+  my_nbr_count: 1
+  should_be_asbr: false
+  should_be_stub_trt: false

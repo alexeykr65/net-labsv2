@@ -15,29 +15,29 @@ interfaces:
 #   - net: 192.168.180.0/24
 #     via: 192.168.30.4
 
-ospf:
-  - id: 10
-    rid: 1.1.1.1
-    # auto_cost: reference-bandwidth 101
-    # distance_ospf_ext: 
-    # distance_ospf_intra:
-    # distance_ospf_inter:
-    # timers_throttle_spf: spf-start spf-hold spf-max-wait
-    # log_adjacency_changes: detail
-    # default_info: "always metric 10 metric-type 2"
-    # areas:
-    #   - area: 2
-    #     default-cost: 1  # cost for default summary route that is sent into a stub area or NSSA
-    #     stub: False
-    networks:
-      - net: 172.16.13.0/24
-        area: 0
-      - net: 172.16.12.0/24
-        area: 0
-    # passive_int:
-    #   default_passive: true
-    #   int_name:
-    #     - gig3      
+# ospf:
+#   - id: 10
+#     rid: 1.1.1.1
+#     # auto_cost: reference-bandwidth 101
+#     # distance_ospf_ext: 
+#     # distance_ospf_intra:
+#     # distance_ospf_inter:
+#     # timers_throttle_spf: spf-start spf-hold spf-max-wait
+#     # log_adjacency_changes: detail
+#     # default_info: "always metric 10 metric-type 2"
+#     # areas:
+#     #   - area: 2
+#     #     default-cost: 1  # cost for default summary route that is sent into a stub area or NSSA
+#     #     stub: False
+#     networks:
+#       - net: 172.16.13.0/24
+#         area: 0
+#       - net: 172.16.12.0/24
+#         area: 0
+#     # passive_int:
+#     #   default_passive: true
+#     #   int_name:
+#     #     - gig3      
 
 # ospf_int:
 #   - int_name: Gig3
