@@ -1,20 +1,27 @@
 ---
 - name: Configure Cisco IOS
   hosts: cisco
-  connection: local
+#  connection: local
   vars:
     ospf_check: False
     do_it: True
-#   vars_files:
-#     - "vars/data-plp-dmvpn.yml"
-# #    - "vars/data-plp-dmvpn-eigrp.yml"
+    int_reset: True
 
   roles:
-    - router-config
-    - ospf
-# #    - dmvpn
-    - eigrp
-    - redistribute
+#     - { role: interfaces, when: interfaces is defined }
+#     - router-config
+#     - { role: ospf, when: ospf is defined }
+# # #    - dmvpn
+#     - { role: eigrp, when: eigrp is defined }
+#     - { role: redistribute, when: redistribute is defined }
+
+    - { role: interfaces }
+    - { role: router-config }
+    - { role: ospf }
+# # #    - dmvpn
+    - { role: eigrp }
+    - { role: bgp }
+    - { role: redistribute }
   
   tasks:
     - name: Write config to router
